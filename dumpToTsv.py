@@ -1,6 +1,7 @@
 import json
 import csv
 import sys
+import datetime 
 
 def dumpToTsv(parsedDict):
 	# pass the filename for dumping profile data in parameter, ie. dumped_profile_data.tsv
@@ -9,7 +10,9 @@ def dumpToTsv(parsedDict):
 		data_writer = csv.writer(data_file, delimiter = "\t")
 		# header:
 		# data_writer.writerow(["name", "username", "number_of_followers", "number_of_following", 	"number_of_posts"])
-		row = [parsedDict["name"]]
+		row = []
+		row.append(datetime.datetime.utcnow())
+		row.append(parsedDict["name"])
 		row.append(parsedDict["username"])
 		row.append(parsedDict["number_of_followers"])
 		row.append(parsedDict["number_of_following"])
@@ -27,6 +30,7 @@ def dumpToTsv(parsedDict):
 
 		for p in new_posts:
 			row = []
+			row.append(datetime.datetime.utcnow())
 			row.append(parsedDict["username"])
 			row.append(p["post_id"])
 			row.append(p["post_timestamp"])
