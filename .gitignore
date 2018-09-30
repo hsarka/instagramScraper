@@ -106,3 +106,6 @@ instaScraper/
 
 # VS Code
 .vscode
+
+# config
+*config.py

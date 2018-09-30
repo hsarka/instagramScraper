@@ -1,28 +1,35 @@
 ### Hi there!
-### Check out Jiri's blog http://blog.hubacek.uk for more data-related stuff & check Sarka's blog not only for a post about this piece of code http://sarka.hubacek.uk/instagram-scraping-with-python/ 
+### Check out Jiri's blog http://blog.hubacek.uk for more data-related stuff & check Sarka's blog not only for a post about this piece of code http://sarka.hubacek.uk/
 ### Use responsibly.
+
+import os.path
+import sys
+import logging
+from pathlib import Path
+
+my_path = os.path.abspath(os.path.dirname(__file__))
+#print(my_path)
+
+logging.basicConfig(
+		level = logging.DEBUG,
+		format = "%(asctime)s %(levelname)s %(message)s",
+		filename = f"{my_path}/instaScraper.log",
+		filemode = "w")
+
+my_file = Path(f"{my_path}/config.py")
+if not my_file.is_file():
+	logging.critical("Config file not found.")
 
 import csv 
 from scrapeProfile import instaScraper
 from parseInstaJson import parseInstaJson
 from dumpToTsv import dumpToTsv
-import sys
-import logging
-
-logging.basicConfig(
-		level=logging.DEBUG,
-		format='%(asctime)s %(levelname)s %(message)s',
-		filename='instaScraper.log',
-		filemode='w')
+import config
 
 logging.info("Starting Instagram scraping process.")
 
-if len(sys.argv) != 4:
-	print("Arguments not provided, expected format: run.py <profile csv file> <profile output file> <post output file>")
-	sys.exit()
-
 # pass the source CSV filename in parameter, ie. test_data.csv
-sourceProfileNames = sys.argv[1]
+sourceProfileNames = config.inputFilePath
 
 with open(sourceProfileNames) as csv_file:
 	csv_reader = csv.reader(csv_file, delimiter = ",")

@@ -2,10 +2,11 @@ import json
 import csv
 import sys
 import datetime 
+import config
 
 def dumpToTsv(parsedDict):
 	# pass the filename for dumping profile data in parameter, ie. dumped_profile_data.tsv
-	dumpingProfileDataFile = sys.argv[2]
+	dumpingProfileDataFile = config.outputProfileDataFilePath
 	with open(dumpingProfileDataFile, mode = "a") as data_file:
 		data_writer = csv.writer(data_file, delimiter = "\t")
 		# header:
@@ -22,7 +23,7 @@ def dumpToTsv(parsedDict):
 	new_posts = parsedDict["posts_data"]
 
 	# pass the filename for dumping posts data in parameter, ie. dumped_posts_data.tsv
-	dumpingPostsDataFile = sys.argv[3]
+	dumpingPostsDataFile = config.outputPostsDataFilePath
 	with open(dumpingPostsDataFile, mode = "a") as data_file:
 		data_writer = csv.writer(data_file, delimiter = "\t", quotechar='"', quoting=csv.QUOTE_ALL)
 		# header:
