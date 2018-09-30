@@ -10,10 +10,12 @@ import sys
 import logging
 
 logging.basicConfig(
-		level=logging.INFO,
+		level=logging.DEBUG,
 		format='%(asctime)s %(levelname)s %(message)s',
 		filename='instaScraper.log',
 		filemode='w')
+
+logging.info("Starting Instagram scraping process.")
 
 if len(sys.argv) != 4:
 	print("Arguments not provided, expected format: run.py <profile csv file> <profile output file> <post output file>")
@@ -30,15 +32,20 @@ with open(sourceProfileNames) as csv_file:
 			# skip the header
 			if row[0] == "username": continue
 
+			logging.debug(f"Getting JSON for username {row[0]}.")
 			# get JSON from the Insta page
-			scrapedJson = instaScraper(str(f'https://instagram.com/{"".join(row)}'))
+			scrapedJson = instaScraper(str(f"https://instagram.com/{row[0]}"))
 
+			logging.debug(f"Parsing scraped JSON for username {row[0]}.")
 			# build dictionary from scraped JSON
 			parsedDict = parseInstaJson(scrapedJson)
 
+			logging.debug(f"Writing data for username {row[0]} into TSV file.")
 			# append to a tab-delimited text file
 			dumpToTsv(parsedDict)
 		
 		# if something goes downhill, print the exception and continue to the next profile
 		except Exception as e:
-			print(e)
+			logging.error(e)
+
+logging.info("Instagram scraping process finished.")

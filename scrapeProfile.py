@@ -5,7 +5,7 @@ import json
 def instaScraper(instaLink):
 	raw_html = simple_get(instaLink)
 	
-	raw_html = raw_html.decode('utf-8')
+	raw_html = raw_html.decode("utf-8")
 	scriptTags = BeautifulSoup(raw_html, "html.parser")
 	
 	scriptTag = ""
@@ -19,6 +19,6 @@ def instaScraper(instaLink):
 	
 	# strip the garbage
 	stripJson = scriptTag.strip('<script type="text/javascript">window._sharedData = ')
-	stripJson = stripJson.strip(';</script>')
+	stripJson = stripJson.strip(";</script>")
 	
 	return json.loads(stripJson)

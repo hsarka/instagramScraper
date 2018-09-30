@@ -7,13 +7,13 @@ def parseInstaJson(data):
 		numberOfFollowers = data["entry_data"]["ProfilePage"][0]["graphql"]["user"]["edge_followed_by"]["count"]
 	# in case of a lonely gunman, which has no followers 
 	except IndexError:
-		numberOfFollowers = ""
+		numberOfFollowers = 0
 
 	try:
 		numberOfFollowed = data["entry_data"]["ProfilePage"][0]["graphql"]["user"]["edge_follow"]["count"]
 	# when there's no one interesting enough to follow
 	except IndexError:
-		numberOfFollowed = ""
+		numberOfFollowed = 0
 
 	try:
 		fullName = data["entry_data"]["ProfilePage"][0]["graphql"]["user"]["full_name"]
@@ -43,7 +43,7 @@ def parseInstaJson(data):
 		
 		try:
 			postTimestampRaw = p["node"]["taken_at_timestamp"]
-			# be anywhere but on UTC
+			# be anywhere but be on UTC
 			postTimestamp = datetime.datetime.utcfromtimestamp(postTimestampRaw).strftime('%Y-%m-%d %H:%M:%S')
 		except IndexError:
 			# when lost in space-time continuum
